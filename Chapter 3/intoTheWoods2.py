@@ -6,7 +6,7 @@ class Stack:
         self.items.append(i)
 
     def pop(self) :
-        self.items.pop(-1)
+        return self.items.pop(-1)
 
     def isEmpty(self) :
         return len(self.items) == 0
@@ -14,3 +14,14 @@ class Stack:
     def size(self) :
         return len(self.items)
 
+input = input("Enter Input : ").split(",")
+
+s = Stack()
+
+for i in range(len(input)) :
+    if input[i][0] == 'A' :
+        s.push(input[i][-1])
+    elif input[i][0] == 'B' :
+        # turn around
+    elif input[i][0] == 'S' :
+        #

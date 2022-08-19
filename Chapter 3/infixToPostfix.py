@@ -31,6 +31,7 @@ operator = {
     "+" : 1,
     "*" : 3,
     "/" : 3,
+    "^" : 4,
 }
 
 def infix2postfix(exp) :
@@ -40,7 +41,7 @@ def infix2postfix(exp) :
     postfix = ""
 
     for i in range(len(exp)) :
-        if exp[i] in "+-*/()" :
+        if exp[i] in "+-*/()^" :
             if s.isEmpty() :
                 s.push(exp[i])
             else :
@@ -69,7 +70,7 @@ def infix2postfix(exp) :
                     s.push(exp[i])
         else :
             postfix += exp[i]
-    if not s.isEmpty() :
+    while not s.isEmpty() :
         postfix += s.pop()
     return postfix
 
