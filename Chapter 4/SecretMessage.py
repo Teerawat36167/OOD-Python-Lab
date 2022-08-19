@@ -29,6 +29,11 @@ def encodemsg(q1, q2) :
             encode -= 26
         q1.enQueue(chr(encode))
         q2.enQueue(ascii)
+
+    for j in range((2*q2.size())-q1.size()) :
+        temp = q2.deQueue()
+        q2.enQueue(temp)
+    
     print("Encode message is : " , q1)
 
 def decodemsg(q1, q2) :
@@ -51,5 +56,3 @@ q2 = Queue(number)
 encodemsg(q1, q2)
 
 decodemsg(q1, q2)
-
-#เหลือวิธี reset queue number
