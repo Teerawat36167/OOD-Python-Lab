@@ -25,12 +25,12 @@ def encodemsg(q1, q2) :
     for i in range(count) :
         ascii = q2.deQueue()
         encode = ord(q1.deQueue()) + int(ascii)
-        if 122 < encode or  97 > encode > 90 :
+        if 122 < encode or ( 97 > encode and encode > 90 ) :
             encode -= 26
         q1.enQueue(chr(encode))
         q2.enQueue(ascii)
 
-    for j in range((2*q2.size())-q1.size()) :
+    for j in range(q2.size()-(q1.size()%q2.size())) :
         temp = q2.deQueue()
         q2.enQueue(temp)
     
@@ -39,11 +39,15 @@ def encodemsg(q1, q2) :
 def decodemsg(q1, q2) :
     count = q1.size()
     for i in range(count) :
-        ascii = q2.deQueue()
-        encode = ord(q1.deQueue()) - int(ascii)
-        if encode < 65 or 90 < encode < 97:
-            encode += 26
-        q1.enQueue(chr(encode))
+        ascii = int(q2.deQueue())
+        char = ord(q1.deQueue())
+        # encode = ord(q1.deQueue()) - int(ascii)
+        if chr(char).isupper() and char - 65 < ascii :
+            q1.enQueue(chr(char+26-ascii))
+        elif chr(char).islower() and char - 97 < ascii :
+            q1.enQueue(chr(char+26-ascii))
+        else :
+            q1.enQueue(chr(char-ascii))
         q2.enQueue(ascii)
     print("Decode message is : " , q1)
 
