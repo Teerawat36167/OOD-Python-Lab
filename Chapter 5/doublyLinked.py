@@ -33,44 +33,77 @@ class LinkedList:
     def append(self, item):
         new = Node(item)
         current = self.head
-        while current.next != None :
-            current = current.next
-        current.next = new
+        if self.isEmpty() :
+            self.head = new
+            self.tail = new
+        else :
+            while current.next != None :
+                current = current.next
+            current.next = new
+            new.previous = self.tail
+            self.tail = new
 
     def addHead(self, item):
         new = Node(item)
-        new.next = self.head
-        self.head = new
+        if L.isEmpty() :
+            self.head = new
+            self.tail = new
+        else :
+            current = self.head
+            new.next = self.head
+            self.head = new
+            current.previous = new
+            while current.next != None :
+                current = current.next
+            self.tail = current
 
     def insert(self, pos, item):
         new = Node(item)
-        current = self.head
-        for _ in range(pos-1) :
-            if current.next == None :
-                print("Data cannot be added")
-                return
+        if L.isEmpty() :
+            self.head = new
+            self.tail = new
+        elif -pos > L.size() :
+                self.addHead(new.value)
+        else :
+            current = self.head
+            if pos < 0 and -pos < L.size():
+                for _ in range(L.size() - 1 + pos) :
+                    current = current.next
+            elif pos > L.size() :
+                for _ in range(L.size() - 1) :
+                    current = current.next
             else :
+                for _ in range(pos-1) :
+                    current = current.next
+            new.next = current.next
+            new.previous = current
+            current.next = new
+            current = current.next
+            if current.next != None :
                 current = current.next
-        new.next = current.next
-        current.next = new
+                current.previous = new
+            while current.next != None :
+                current = current.next
+            self.tail = current
 
     def search(self, item):
         current = self.head
         while current :
-            if current == item :
-                return "FOUND"
+            if str(current.value) == str(item) :
+                return "Found"
             else :
                 current = current.next
-        return "NOT FOUND"
+        return "Not Found"
 
     def index(self, item):
         current = self.head
         n = 0
         while current :
-            if current == item :
+            if str(current.value) == str(item) :
                 return n
             else :
                 current = current.next
+                n += 1
         return -1
 
     def size(self):
@@ -82,17 +115,25 @@ class LinkedList:
         return n
 
     def pop(self, pos):
-        current = self.head
-        if pos == 0 :
-            current = current.next
-        elif pos == self.size() :
-            while current.next.next != None :
-                current = current.next
-            current.next = current.next.next
+        if L.size() < pos-1 or pos < -1 or L.isEmpty():
+            return "Out of Range"
         else :
-            for _ in range(pos-2) :
-                current = current.next
-            current.next = current.next.next
+            current = self.head
+            if pos == 0 :
+                if current.next == None :
+                    self.head = None
+                    self.tail = None
+                else :
+                    current = current.next
+            elif pos == self.size() :
+                while current.next.next != None :
+                    current = current.next
+                current.next = current.next.next
+            else :
+                for _ in range(pos-2) :
+                    current = current.next
+                current.next = current.next.next
+            return "Success"
 
 L = LinkedList()
 inp = input('Enter Input : ').split(',')
