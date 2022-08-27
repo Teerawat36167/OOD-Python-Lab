@@ -56,17 +56,11 @@ class LinkedList :
                self.tail = new
           else :
                current = self.head
-               if pos < 0 and -pos < L.size():
-                    for _ in range(L.size() - 1 + pos) :
-                         current = current.next
-               elif -pos >= L.size() :
+               if pos < 0 :
                     self.addHead(new.value)
                     return
-               elif pos > L.size() :
-                    self.append(new.value)
-                    return
                else :
-                    for _ in range(pos-1) :
+                    for _ in range(pos) :
                          current = current.next
                new.next = current.next
                new.previous = current
@@ -101,6 +95,19 @@ class LinkedList :
                n += 1
           return n
 
+     def pop(self, pos):
+          current = self.head
+          if pos == 0 :
+               if current.next == None :
+                    self.head = None
+                    self.tail = None
+               else :
+                    self.head = current.next
+          else :
+               for _ in range(pos-1) :
+                    current = current.next
+               current.next = current.next.next
+
 L = LinkedList()
 
 input = input("Enter Input : ").split(",")
@@ -109,15 +116,36 @@ cursor = "|"
 L.append(cursor)
 
 for i in range(len(input)) :
-     command, word = input[i].split(" ")
+     if len(input[i]) > 1 :
+          command, word = input[i].split(" ")
+     else :
+          command = input[i]
      if command == "I" :
-          L.insert(L.index(cursor)-1,word)
+          L.insert(L.index(cursor) - 1,word)
      elif command == "L" :
-          pass
+          posCursor = L.index(cursor)
+          if posCursor != 0 :
+               L.pop(posCursor)
+               L.insert(posCursor - 2,cursor)
+          else :
+               continue
      elif command == "R" :
-          pass
+          posCursor = L.index(cursor)
+          if posCursor != L.size() - 1 :
+               L.pop(posCursor)
+               L.insert(posCursor,cursor)
+          else :
+               continue
      elif command == "B" :
-          pass
+          posCursor = L.index(cursor)
+          if posCursor != 0 :
+               L.pop(posCursor - 1)
+          else :
+               continue
      elif command == "D" :
-          pass
-     print(L)
+          posCursor = L.index(cursor)
+          if posCursor != L.size() - 1 :
+               L.pop(posCursor + 1)
+          else :
+               continue
+print(L)
