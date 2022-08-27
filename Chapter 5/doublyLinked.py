@@ -32,11 +32,11 @@ class LinkedList:
 
     def append(self, item):
         new = Node(item)
-        current = self.head
         if self.isEmpty() :
             self.head = new
             self.tail = new
         else :
+            current = self.head
             while current.next != None :
                 current = current.next
             current.next = new
@@ -51,8 +51,8 @@ class LinkedList:
         else :
             current = self.head
             new.next = self.head
-            self.head = new
             current.previous = new
+            self.head = new
             while current.next != None :
                 current = current.next
             self.tail = current
@@ -62,23 +62,24 @@ class LinkedList:
         if L.isEmpty() :
             self.head = new
             self.tail = new
-        elif -pos > L.size() :
-                self.addHead(new.value)
         else :
             current = self.head
             if pos < 0 and -pos < L.size():
                 for _ in range(L.size() - 1 + pos) :
                     current = current.next
+            elif -pos >= L.size() :
+                self.addHead(new.value)
+                return
             elif pos > L.size() :
-                for _ in range(L.size() - 1) :
-                    current = current.next
+                self.append(new.value)
+                return
             else :
                 for _ in range(pos-1) :
                     current = current.next
             new.next = current.next
             new.previous = current
             current.next = new
-            current = current.next
+            current = new
             if current.next != None :
                 current = current.next
                 current.previous = new
@@ -87,24 +88,30 @@ class LinkedList:
             self.tail = current
 
     def search(self, item):
-        current = self.head
-        while current :
-            if str(current.value) == str(item) :
-                return "Found"
-            else :
-                current = current.next
-        return "Not Found"
+        if self.isEmpty() :
+            return "Not Found"
+        else :
+            current = self.head
+            while current :
+                if str(current.value) == str(item) :
+                    return "Found"
+                else :
+                    current = current.next
+            return "Not Found"
 
     def index(self, item):
-        current = self.head
         n = 0
-        while current :
-            if str(current.value) == str(item) :
-                return n
-            else :
-                current = current.next
-                n += 1
-        return -1
+        if self.isEmpty() :
+            return -1
+        else :
+            current = self.head
+            while current :
+                if str(current.value) == str(item) :
+                    return n
+                else :
+                    current = current.next
+                    n += 1
+            return -1
 
     def size(self):
         current = self.head
@@ -115,7 +122,7 @@ class LinkedList:
         return n
 
     def pop(self, pos):
-        if L.size() < pos-1 or pos < -1 or L.isEmpty():
+        if L.size() <= pos or pos < -1 or L.isEmpty():
             return "Out of Range"
         else :
             current = self.head
@@ -125,7 +132,7 @@ class LinkedList:
                     self.tail = None
                 else :
                     current = current.next
-            elif pos == self.size() :
+            elif pos == self.size()-1 :
                 while current.next.next != None :
                     current = current.next
                 current.next = current.next.next

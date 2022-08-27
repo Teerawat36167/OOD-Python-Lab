@@ -4,7 +4,8 @@ class Node:
         self.next = None
         self.previous = None
 
-class LinkedList:
+class LinkedList :
+
     def __init__(self):
         self.head = None
         self.tail = None
@@ -32,46 +33,16 @@ class LinkedList:
 
     def append(self, item):
         new = Node(item)
-        current = self.head
-        while current.next != None :
-            current = current.next
-        current.next = new
-
-    def addHead(self, item):
-        new = Node(item)
-        new.next = self.head
-        self.head = new
-
-    def insert(self, pos, item):
-        new = Node(item)
-        current = self.head
-        for _ in range(pos-1) :
-            if current.next == None :
-                print("Data cannot be added")
-                return
-            else :
+        if self.isEmpty() :
+            self.head = new
+            self.tail = new
+        else :
+            current = self.head
+            while current.next != None :
                 current = current.next
-        new.next = current.next
-        current.next = new
-
-    def search(self, item):
-        current = self.head
-        while current :
-            if current == item :
-                return "FOUND"
-            else :
-                current = current.next
-        return "NOT FOUND"
-
-    def index(self, item):
-        current = self.head
-        n = 0
-        while current :
-            if current == item :
-                return n
-            else :
-                current = current.next
-        return -1
+            current.next = new
+            new.previous = self.tail
+            self.tail = new
 
     def size(self):
         current = self.head
@@ -81,18 +52,25 @@ class LinkedList:
             n += 1
         return n
 
-    def pop(self, pos):
-        current = self.head
-        if pos == 0 :
-            current = current.next
-        elif pos == self.size() :
-            while current.next.next != None :
-                current = current.next
-            current.next = current.next.next
-        else :
-            for _ in range(pos-2) :
-                current = current.next
-            current.next = current.next.next
+L1=LinkedList()
+L2=LinkedList()
 
-l1 = LinkedList()
-l2 = LinkedList()
+input = input("Enter Input (L1,L2) : ").split(" ")
+
+inputL1 = input[0].split("->")
+for data in inputL1 :
+    L1.append(data)
+print("L1    :",L1)
+
+inputL2 = input[1].split("->")
+for data in inputL2 :
+    L2.append(data)
+print("L2    :",L2)
+
+if not L2.isEmpty() :
+    current = L2.tail
+    while current != None :
+        L1.append(current.value)
+        current = current.previous
+
+print(f'Merge : {L1}')
