@@ -25,6 +25,15 @@ class LinkedList :
                cur = cur.next
           return cur.value
 
+     def print(self) :
+          if self.isEmpty():
+               return "Empty"
+          cur, s = self.head, str(self.head.value)
+          while cur.next != None:
+               s += " -> " + str(cur.next.value) 
+               cur = cur.next
+          return s
+
      def isEmpty(self):
           return self.head == None
 
@@ -56,28 +65,17 @@ class LinkedList :
                self.tail = new
 
      def insert(self, pos, item):
-          new = Node(item)
-          if self.isEmpty() :
-               self.head = new
-               self.tail = new
+          p = Node(item)
+          if int(pos) == 0 :
+               p.next = self.head
+               self.head = p
           else :
-               current = self.head
-               if pos < 0 :
-                    self.addHead(new.value)
-                    return
-               else :
-                    for _ in range(pos) :
-                         current = current.next
-               new.next = current.next
-               new.previous = current
-               current.next = new
-               current = new
-               if current.next != None :
-                    current = current.next
-                    current.previous = new
-               while current.next != None :
-                    current = current.next
-               self.tail = current
+               q = self.head
+               for _ in range(int(pos)-1) :
+                    q = q.next
+               p.next = q.next
+               q.next = p
+
 
      def index(self, item):
           n = 0
@@ -112,16 +110,11 @@ class LinkedList :
 
      def pop(self):
           current = self.head
-          # if pos == 0 :
           if current.next == None :
                self.head = None
                self.tail = None
           else :
                self.head = current.next
-          # else :
-          #      for _ in range(pos-1) :
-          #           current = current.next
-          #      current.next = current.next.next
 
 def radix_sort(input) :
      L = LinkedList()
@@ -133,12 +126,22 @@ def radix_sort(input) :
           LL.append(LinkedList())
 
      round = 1
-     # while 1 :
-     for _ in range(10) :
+     while 1 :
           while not L.isEmpty() :
                num = L.deQueue()
-               index_digit = get_digit(int(num),round)
-               LL[index_digit].append(num)
+               index_digit = get_digit(abs(int(num)),round)
+               if LL[index_digit].isEmpty() :
+                    LL[index_digit].append(num)
+               else:
+                    for i in range(LL[index_digit].size()) :
+                         if int(LL[index_digit][i]) <= int(num) :
+                              LL[index_digit].insert(i,num)
+                              break
+                         else :
+                              if i == LL[index_digit].size()-1 :
+                                   LL[index_digit].append(num)
+                              else :
+                                   continue
           print("Round :",round)
           for j in range(0,10) :
                print(j,": ",end='')
@@ -146,11 +149,19 @@ def radix_sort(input) :
                     print("")
                else :
                     print(LL[j])
+          print("------------------------------------------------------------")
+          done = True
+          for i in range(1,10) :
+               if not LL[i].isEmpty() :
+                    done = False
           for i in range (10) :
                while not LL[i].isEmpty() :
                     L.append(LL[i].deQueue())
+          if done :
+               return L,round-1
           round += 1
-          print("------------------------------------------------------------")
+     return L,round-2
+
 
 def get_digit(n, d):
      for _ in range(d-1):
@@ -158,5 +169,11 @@ def get_digit(n, d):
      return n % 10
 
 input = input("Enter Input : ").split(" ")
+before = LinkedList()
+for i in input :
+     before.append(i)
 print("------------------------------------------------------------")
-x = radix_sort(input)
+after, time = radix_sort(input)
+print(time,"Time(s)")
+print(f'Before Radix Sort : {before.print()}')
+print(f'After  Radix Sort : {after.print()}')
