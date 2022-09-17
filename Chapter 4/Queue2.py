@@ -33,12 +33,11 @@ for i in range(len(input)) :
         q1count = 0
         q1.deQueue()
     if q2count == 2 : 
-                q2count = 0
-                q2.deQueue()
+        q2count = 0
+        q2.deQueue()
     if q1.size() < 5 :
-        if q1.size() < 5 :
-            q1.enQueue(input[i])
-            qInput.deQueue()
+        q1.enQueue(input[i])
+        qInput.deQueue()
     else :
         if q2.size() < 5 :
             q2.enQueue(input[i])
