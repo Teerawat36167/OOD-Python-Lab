@@ -16,7 +16,6 @@ def reverse_list(list,index) :
           return tempList
      else :
           return reverse_list(list,index-1)
-     
 listt= input("Enter your List : ").split(",")
 tempList = []
 l =reverse_sort_list(listt, 1, 0)

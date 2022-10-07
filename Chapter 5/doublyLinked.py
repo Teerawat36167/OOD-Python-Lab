@@ -137,7 +137,7 @@ class LinkedList:
                     current = current.next
                 current.next = current.next.next
             else :
-                for _ in range(pos-2) :
+                for _ in range(pos-1) :
                     current = current.next
                 current.next = current.next.next
             return "Success"
