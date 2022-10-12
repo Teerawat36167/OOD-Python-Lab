@@ -40,7 +40,20 @@ def printTree90(node, level = 0):
         printTree90(node.left, level + 1)
 
 def father(r,data):
-    pass
+    while True :
+        if r is None :
+            return "Not Found Data"
+        elif r.data == data :
+            return f'None Because {data} is Root'
+        elif r.left is not None and r.left.data == data :
+            return r.data
+        elif r.right is not None and r.right.data == data :
+            return r.data
+
+        if data < r.data :
+            r = r.left
+        elif data >= r.data :
+            r = r.right
 
 tree = BinarySearchTree()
 data = input("Enter Input : ").split("/")
