@@ -1,34 +1,23 @@
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+class van:
+    def __init__(self,num,time):
+        self.num = int(num)
+        self.time = int(time)
     
-    def __str__(self):
-        return str(self.data)
+    def __lt__(self,o):
+        if self.time == o.time:
+            return self.num < o.num
+        return self.time < o.time
 
-class BST:
-    def __init__(self):
-        self.root = None
-    
-    def insert(self, data):
-        if self.root == None:
-            self.root = Node(data)
-        elif self.root != None:
-            p = self.root
-            found = False
-            while not found:
-                if p.left == None:
-                    p.left = Node(data)
-                    found = True
-                elif p.right == None:
-                    p.right = Node(data)
-                    found = True
-                elif p.left.left != None and p.left.right != None:
-                    p = p.right
-                else:
-                    p = p.left
+inp = input("Enter Input : ").split("/")
+n =  int(inp[0])
+booking = [int(i) for i in inp[1].split()]
+q = []
 
-k,list = input("Enter Input : ").split('/')
-list = [int(i) for i in list.split()]
-print(list)
+for i in range(n):
+    q.append(van(i+1,0))
+
+for i in range(len(booking)):
+    firstVan = q.pop(0)
+    print(f'Customer {i+1} Booking Van {firstVan.num} | {booking[i]} day(s)')
+    q.append(van(firstVan.num,int(booking[i])+firstVan.time))
+    q.sort()
