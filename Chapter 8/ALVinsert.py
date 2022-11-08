@@ -26,16 +26,16 @@ class AVL_Tree(object):
                print("Not Balance, Rebalance!")
                return self.rightRotate(node)
           # Case 2 Right Right
-          if balance < -1 and data >= node.right.val:
+          if balance < -1 and data > node.right.val:
                print("Not Balance, Rebalance!")
                return self.leftRotate(node)
           # Case 3 Left Right
-          if balance > 1 and data >= node.left.val:
+          if balance > 1 and data > node.left.val:
                print("Not Balance, Rebalance!")
                node.left = self.leftRotate(node.left)
                return self.rightRotate(node)
           # Case 4 Right Left
-          if balance < -1 and data <= node.right.val:
+          if balance < -1 and data < node.right.val:
                print("Not Balance, Rebalance!")
                node.right = self.rightRotate(node.right)
                return self.leftRotate(node)
