@@ -19,20 +19,33 @@ class hash:
           else:
                index = 0
                for i in key:
-                    index += i
+                    index += ord(i)
                index %= self.size
 
                if self.table[index] == None:
                     self.table[index] = Data(key,data)
                else:
                     col = 0
-                    newIndex = index
                     print(f'collision number {col+1} at {index}')
-
-                    #Not Finish
+                    while True:
+                         col += 1
+                         newIndex = ( index + col * col ) % self.size
+                         if self.table[newIndex] == None:
+                              self.table[newIndex] = Data(key,data)
+                              break
+                         if self.maxCol == col:
+                              print("Max of collisionChain")
+                              break
+                         print(f'collision number {col+1} at {newIndex}')
+               self.printHashTable()
 
      def isfull(self):
           return None not in self.table
+
+     def printHashTable(self):
+          for i in range(self.size):
+               print(f'#{i+1}      {self.table[i]}')
+          print("---------------------------")
 
 print(" ***** Fun with hashing *****")
 inp = input("Enter Input : ").split('/')
